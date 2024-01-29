@@ -1,0 +1,41 @@
+@font-face {
+  font-family: "MaplestoryOTFBold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/MaplestoryOTFBold.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NEXON Lv1 Gothic OTF";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 190vh; /* 전체 화면 높이 */
+}
+
+.modal_button_group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.colorButtonStyle_orange {
+  color: rgb(255, 214, 141);
+}
+.colorButtonStyle_blue {
+  border-radius: 50% 50% 0 0;
+  color: rgb(189, 235, 255);
+}
+.colorButtonStyle_pink {
+  border-radius: 50% 50% 0 0;
+  color: rgb(255, 189, 242);
+}

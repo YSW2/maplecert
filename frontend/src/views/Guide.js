@@ -38,7 +38,7 @@ function Guide() {
         <br />
         &emsp;개발환경: WEB
         <br />
-        &emsp;URL: example.com
+        &emsp;URL: maplecert.site
         <br />
         &emsp;소개: ex)메이플 인장 생성기
       </Typography>

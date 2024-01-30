@@ -137,6 +137,15 @@ function Stamp({
     }
   };
 
+  const handleDownload = () => {
+    const canvas = canvasRef.current;
+    const image = canvas.toDataURL("image/png");
+    const link = document.createElement("a");
+    link.href = image;
+    link.download = "cert.png";
+    link.click();
+  };
+
   useEffect(
     () => {
       if (
@@ -201,7 +210,10 @@ function Stamp({
       </Grid>
       <canvas id="cert_canvas" ref={canvasRef} width={600} height={180} />
       <div />
-      <Button onClick={handleOpen} color="primary" variant="contained">
+      <Button onClick={handleDownload} color="primary" variant="contained">
+        다운로드
+      </Button>
+      <Button onClick={handleOpen} color="primary" variant="outlined">
         검증
       </Button>
       <CertModal open={open} onClose={handleClose} />

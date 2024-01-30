@@ -1,5 +1,5 @@
 const config = {
-  apiUrl: "http://localhost:8000",
+  apiUrl: "https://port-0-maplecert-qrd2alrysjpwf.sel5.cloudtype.app",
 };
 
 export default config;

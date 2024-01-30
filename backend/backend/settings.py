@@ -82,11 +82,11 @@ WSGI_APPLICATION = "backend.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "userdata",
+        "NAME": "maplecert",
         "USER": "root",
         "PASSWORD": os.getenv("DB_PASSWORD"),
-        "HOST": "localhost",
-        "PORT": "3306",
+        "HOST": "svc.sel5.cloudtype.app:32262",
+        "PORT": "32262",
     }
 }
 

@@ -26,7 +26,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["https://port-0-maplecert-qrd2alrysjpwf.sel5.cloudtype.app/"]
 
 
 # Application definition

@@ -149,6 +149,7 @@ function Stamp({
   useEffect(
     () => {
       if (
+        font.family === "MaplestoryOTFBold" &&
         canvasRef.current &&
         fontLoaded &&
         imageLoaded &&

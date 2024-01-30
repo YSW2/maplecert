@@ -21,16 +21,6 @@
   height: 190vh; /* 전체 화면 높이 */
 }
 
-@media (max-width: 768px) {
-  .flex-container {
-    height: 190vh; /* 모바일 화면에 맞는 높이 조정 */
-    justify-content: center;
-    align-items: center;
-    height: 190vh; /* 전체 화면 높이 */
-    /* 필요한 추가 스타일 */
-  }
-}
-
 .modal_button_group {
   display: flex;
   justify-content: center;

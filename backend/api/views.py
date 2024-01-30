@@ -16,6 +16,7 @@ class GetUserOcid(APIView):
 
     def post(self, request, format=None):
         serializer = self.serializer_class(data=request.data)
+        print(serializer)
         if serializer.is_valid():
             api = serializer.data.get("api")
             userName = serializer.data.get("userName")
@@ -33,6 +34,7 @@ class GetUserOcid(APIView):
                 return Response({}, status=status.HTTP_404_NOT_FOUND)
 
         else:
+            print(serializer.error_messages)
             return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
 

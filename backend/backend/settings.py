@@ -85,7 +85,7 @@ DATABASES = {
         "NAME": "maplecert",
         "USER": "root",
         "PASSWORD": os.getenv("DB_PASSWORD"),
-        "HOST": "svc.sel5.cloudtype.app:32262",
+        "HOST": "svc.sel5.cloudtype.app",
         "PORT": "32262",
     }
 }

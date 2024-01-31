@@ -152,7 +152,7 @@ function GetInfo() {
       .then((data) => {
         setUserOcid(data.ocid);
         setStateMessage(
-          "본인 인증을 진행합니다.\n10성 미만의 스타포스 강화를 진행한 뒤 인증 버튼을 눌러주세요."
+          "본인 인증을 진행합니다.\n10성 미만의 스타포스 강화를 1회 진행한 뒤 인증 버튼을 눌러주세요."
         );
         setShowValidButton(true);
       })

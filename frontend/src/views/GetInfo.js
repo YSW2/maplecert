@@ -11,6 +11,7 @@ function GetInfo() {
   const [userName, setUserName] = useState("");
   const [userMark, setUserMark] = useState("");
   const [userData, setUserData] = useState({});
+  const [showValidButton, setShowValidButton] = useState(false);
   const [stateMessage, setStateMessage] = useState("");
 
   const allFieldsFilled = userApi !== "" && userName !== "" && userMark !== "";
@@ -107,6 +108,19 @@ function GetInfo() {
     return await response.json();
   };
 
+  const fetchStarforce = async (userApi) => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ api: userApi }),
+    };
+    const response = await fetch(
+      `${config.apiUrl}/api/get-starforce`,
+      requestOptions
+    );
+    return await response.json();
+  };
+
   const fetchUserInfo = async (userApi, ocid) => {
     const requestOptions = {
       method: "POST",
@@ -126,10 +140,24 @@ function GetInfo() {
       return;
     }
     setStateMessage("유저 식별자 조회 중..");
-    fetchOcid(userApi, userName)
+    fetchOcid(userApi, userName).then((data) => {
+      setStateMessage(
+        "본인 인증을 진행합니다.\n10성 미만의 스타포스 강화를 진행한 뒤 인증 버튼을 눌러주세요."
+      );
+      setShowValidButton(true);
+    });
+  };
+
+  const handleSubmitValid = () => {
+    fetchStarforce(userApi)
       .then((data) => {
-        setStateMessage("유저 정보 조회 중..");
-        return fetchUserInfo(userApi, data.ocid);
+        if (data.cert === "invalid") {
+          setStateMessage("인증에 실패했습니다");
+          throw new Error("인증에 실패했습니다");
+        } else if (data.cert === "valid") {
+          setStateMessage("유저 정보 조회 중..");
+          fetchUserInfo(userApi, data.ocid);
+        }
       })
       .then((data) => {
         data.userMark = userMark;
@@ -192,6 +220,16 @@ function GetInfo() {
         >
           생성
         </Button>
+        {showValidButton && (
+          <Button
+            disabled={!showValidButton}
+            variant="outlined"
+            color="primary"
+            onClick={handleSubmitValid}
+          >
+            인증
+          </Button>
+        )}
       </Grid>
       <Stamp {...userData} />
       <Guide />

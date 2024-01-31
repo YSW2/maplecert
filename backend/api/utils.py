@@ -31,3 +31,18 @@ def excute_maplestory_api(api, ocid, date, endpoint):
         return response.json()
     except:
         return {"Error": "Issue with request"}
+
+
+def get_starforce_api(api, date, endpoint):
+    headers = {
+        "Content-Type": "application/json",
+        "x-nxopen-api-key": api,
+    }
+    data = {"count": 10, "date": date}
+
+    response = get(BASE_URL + endpoint, data, headers=headers)
+
+    try:
+        return response.json()
+    except:
+        return {"Error": "Issue with request"}

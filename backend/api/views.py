@@ -16,7 +16,6 @@ class GetUserOcid(APIView):
 
     def post(self, request, format=None):
         serializer = self.serializer_class(data=request.data)
-        print(serializer)
         if serializer.is_valid():
             api = serializer.data.get("api")
             userName = serializer.data.get("userName")
@@ -36,6 +35,30 @@ class GetUserOcid(APIView):
         else:
             print(serializer.error_messages)
             return Response({}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GetStarforce(APIView):
+    def get(self, request, format=None):
+        data = json.load(request.body)
+        api = data.get("api")
+        date = datetime.now()
+        date_str = date.strftime("%Y-%m-%d")
+
+        response = get_starforce_api(api, date_str, "history/starforce").get(
+            "starforce_history"
+        )[0]
+
+        check_num = response["after_starforce_count"]
+        check_time = response["date_create"]
+        check_time_trans = datetime.fromisoformat(check_time)
+        current_time = datetime.now()
+        time_diff = current_time - check_time_trans
+
+        if time_diff <= timedelta(minuites=3) and check_num <= 11:
+            return Response({"cert": "valid"}, status=status.HTTP_200_OK)
+
+        else:
+            return Response({"cert": "invalid"}, status=status.HTTP_403_FORBIDDEN)
 
 
 class GetUserInfo(APIView):

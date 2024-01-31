@@ -65,7 +65,7 @@ class GetStarforce(APIView):
             return Response({"cert": "valid"}, status=status.HTTP_200_OK)
 
         else:
-            return Response({"cert": "invalid"}, status=status.HTTP_204_NO_CONTENT)
+            return Response({"cert": "invalid"}, status=status.HTTP_200_OK)
 
 
 class GetUserInfo(APIView):

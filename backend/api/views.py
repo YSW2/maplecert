@@ -7,6 +7,7 @@ from .serializers import *
 from .utils import *
 from .crypto import *
 from .models import CertData, generate_random_cert
+import pytz
 
 # Create your views here.
 
@@ -38,9 +39,10 @@ class GetUserOcid(APIView):
 
 
 class GetStarforce(APIView):
-    def get(self, request, format=None):
-        data = json.load(request.body)
+    def post(self, request, format=None):
+        data = json.loads(request.body)
         api = data.get("api")
+        userName = data.get("userName")
         date = datetime.now()
         date_str = date.strftime("%Y-%m-%d")
 
@@ -50,11 +52,16 @@ class GetStarforce(APIView):
 
         check_num = response["after_starforce_count"]
         check_time = response["date_create"]
+        check_name = response["character_name"]
         check_time_trans = datetime.fromisoformat(check_time)
-        current_time = datetime.now()
+        current_time = datetime.now(pytz.timezone("Asia/Seoul"))
         time_diff = current_time - check_time_trans
 
-        if time_diff <= timedelta(minuites=3) and check_num <= 11:
+        if (
+            userName == check_name
+            and time_diff <= timedelta(minutes=3)
+            and check_num <= 11
+        ):
             return Response({"cert": "valid"}, status=status.HTTP_200_OK)
 
         else:

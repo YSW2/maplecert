@@ -11,10 +11,18 @@ function GetInfo() {
   const [userName, setUserName] = useState("");
   const [userMark, setUserMark] = useState("");
   const [userData, setUserData] = useState({});
+  const [userOcid, setUserOcid] = useState("");
   const [showValidButton, setShowValidButton] = useState(false);
   const [stateMessage, setStateMessage] = useState("");
 
   const allFieldsFilled = userApi !== "" && userName !== "" && userMark !== "";
+
+  const formattedMessage = stateMessage.split("\n").map((line, index) => (
+    <span key={index}>
+      {line}
+      {index < stateMessage.split("\n").length - 1 && <br />}
+    </span>
+  ));
 
   const handleChangeApi = (e) => {
     setUserApi(e.target.value);
@@ -112,7 +120,7 @@ function GetInfo() {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ api: userApi }),
+      body: JSON.stringify({ api: userApi, userName: userName }),
     };
     const response = await fetch(
       `${config.apiUrl}/api/get-starforce`,
@@ -140,12 +148,17 @@ function GetInfo() {
       return;
     }
     setStateMessage("유저 식별자 조회 중..");
-    fetchOcid(userApi, userName).then((data) => {
-      setStateMessage(
-        "본인 인증을 진행합니다.\n10성 미만의 스타포스 강화를 진행한 뒤 인증 버튼을 눌러주세요."
-      );
-      setShowValidButton(true);
-    });
+    fetchOcid(userApi, userName)
+      .then((data) => {
+        setUserOcid(data.ocid);
+        setStateMessage(
+          "본인 인증을 진행합니다.\n10성 미만의 스타포스 강화를 진행한 뒤 인증 버튼을 눌러주세요."
+        );
+        setShowValidButton(true);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
   };
 
   const handleSubmitValid = () => {
@@ -153,17 +166,21 @@ function GetInfo() {
       .then((data) => {
         if (data.cert === "invalid") {
           setStateMessage("인증에 실패했습니다");
+          setShowValidButton(false);
           throw new Error("인증에 실패했습니다");
-        } else if (data.cert === "valid") {
-          setStateMessage("유저 정보 조회 중..");
-          fetchUserInfo(userApi, data.ocid);
         }
-      })
-      .then((data) => {
-        data.userMark = userMark;
-        data = cuttingData(data);
-        setUserData(data);
-        setStateMessage("조회 완료!");
+        setStateMessage("유저 정보 조회 중..");
+        fetchUserInfo(userApi, userOcid)
+          .then((data) => {
+            data.userMark = userMark;
+            data = cuttingData(data);
+            setUserData(data);
+            setShowValidButton(false);
+            setStateMessage("조회 완료!");
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error);
+          });
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -210,16 +227,18 @@ function GetInfo() {
           style={{ width: "42.5%", marginLeft: "2.5%" }}
         />
         <Typography variant="h6" component="h6">
-          {stateMessage}
+          {formattedMessage}
         </Typography>
-        <Button
-          disabled={!allFieldsFilled}
-          variant="contained"
-          color="primary"
-          onClick={handleSubmitApi}
-        >
-          생성
-        </Button>
+        {!showValidButton && (
+          <Button
+            disabled={!allFieldsFilled}
+            variant="contained"
+            color="primary"
+            onClick={handleSubmitApi}
+          >
+            생성
+          </Button>
+        )}
         {showValidButton && (
           <Button
             disabled={!showValidButton}

@@ -200,6 +200,7 @@ function GetInfo() {
           메이플 인장 생성기
         </Typography>
         <TextField
+          disabled={showValidButton}
           label="API"
           name="api"
           variant="outlined"
@@ -209,6 +210,7 @@ function GetInfo() {
           style={{ width: "90%" }}
         />
         <TextField
+          disabled={showValidButton}
           label="닉네임"
           name="nickname"
           variant="outlined"
@@ -218,6 +220,7 @@ function GetInfo() {
           style={{ width: "42.5%", marginRight: "2.5%" }}
         />
         <TextField
+          disabled={showValidButton}
           label="키워드"
           name="keyword"
           variant="outlined"

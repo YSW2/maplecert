@@ -39,15 +39,17 @@ function CertModal({ open, onClose }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ certKey: certKey }),
     };
-    fetch(`${config.apiUrl}/api/search-cert`, requestOptions).then(
-      (response) => {
+    fetch(`${config.apiUrl}/api/search-cert`, requestOptions)
+      .then((response) => {
         if (response.ok) {
           setResult("유효한 인장입니다");
         } else {
           setResult("유효하지 않은 인장입니다");
         }
-      }
-    );
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
   };
 
   return (

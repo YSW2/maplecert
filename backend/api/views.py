@@ -65,7 +65,7 @@ class GetStarforce(APIView):
             return Response({"cert": "valid"}, status=status.HTTP_200_OK)
 
         else:
-            return Response({"cert": "invalid"}, status=status.HTTP_403_FORBIDDEN)
+            return Response({"cert": "invalid"}, status=status.HTTP_204_NO_CONTENT)
 
 
 class GetUserInfo(APIView):
@@ -139,4 +139,4 @@ class SearchCertKey(APIView):
         if result:
             return Response({"message": "Found"}, status=status.HTTP_200_OK)
         else:
-            return Response({"message": "Not Found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"message": "Not Found"}, status=status.HTTP_204_NO_CONTENT)

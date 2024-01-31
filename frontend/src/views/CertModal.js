@@ -40,8 +40,9 @@ function CertModal({ open, onClose }) {
       body: JSON.stringify({ certKey: certKey }),
     };
     fetch(`${config.apiUrl}/api/search-cert`, requestOptions)
-      .then((response) => {
-        if (response.ok) {
+      .then((response) => response.json()) // response.json()을 호출합니다.
+      .then((data) => {
+        if (data.message === "Found") {
           setResult("유효한 인장입니다");
         } else {
           setResult("유효하지 않은 인장입니다");

@@ -26,7 +26,7 @@ class GetUserOcid(APIView):
 
             if ocid:
                 if CertData.objects.filter(ocid=encrypt_data(ocid)):
-                    return Response(response, status=status.HTTP_400_BAD_REQUEST)
+                    return Response(response, status=status.HTTP_409_CONFLICT)
                 else:
                     return Response(response, status=status.HTTP_200_OK)
 
